@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Advance Happy Birthday, My Love ❤️</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❤️</text></svg>" />
+</head>
+<body>
+
+<!-- Particles background -->
+<canvas id="particles-canvas"></canvas>
+
+<!-- ── NAV ──────────────────────────────────────── -->
+<nav>
+  <div class="nav-logo">My Princess 🌸</div>
+  <button id="music-btn">🎵 Play Music</button>
+</nav>
+
+<!-- Hidden audio — replace src with your music file URL or local file -->
+<audio id="bg-audio" loop>
+  <source src="C:\Users\ABHI\Downloads\birthday-website\birthday-app\static\uploads\Audio.mp3" type="audio/mpeg" />
+</audio>
+
+<!-- ── HERO ──────────────────────────────────────── -->
+<section id="hero">
+  <div class="hero-bg-blur"></div>
+  <div class="hero-tag">A message just for you 💌</div>
+  <h1 class="hero-title">
+    Advance Happy Birthday,<br />
+    <span>My Love ❤️🎂</span>
+  </h1>
+  <p class="hero-subtitle">
+    Before the world gets to celebrate you, I want to be the very first to say —
+    you are the most beautiful, wonderful person in my universe.
+    Your day is almost here, and my heart is already dancing with joy. 🌸
+  </p>
+  <div class="hero-hearts">❤️ 💕 💖 💗 💓</div>
+</section>
+
+<!-- ── COUNTDOWN ──────────────────────────────────── -->
+<section id="countdown" class="fade-in">
+  <!-- Change the date below to your girlfriend's birthday (YYYY-MM-DD) -->
+  <div id="birthday-date" data-date="2026-06-23" hidden></div>
+  <p class="section-title">⏳ Counting Down to Your Special Day</p>
+  <p class="section-sub">Every second brings me closer to celebrating you 🎉</p>
+  <div class="countdown-grid">
+    <div class="cd-box">
+      <div class="cd-num" id="cd-days">00</div>
+      <div class="cd-label">Days</div>
+    </div>
+    <div class="cd-box">
+      <div class="cd-num" id="cd-hours">00</div>
+      <div class="cd-label">Hours</div>
+    </div>
+    <div class="cd-box">
+      <div class="cd-num" id="cd-mins">00</div>
+      <div class="cd-label">Minutes</div>
+    </div>
+    <div class="cd-box">
+      <div class="cd-num" id="cd-secs">00</div>
+      <div class="cd-label">Seconds</div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ── MEMORIES ───────────────────────────────────── -->
+<section id="memories" class="fade-in">
+  <p class="section-title">Our Beautiful Memories ❤️</p>
+  <p class="section-sub">Every picture with you is a treasure I keep in my heart 🌺</p>
+
+  <div class="memories-grid">
+    {% if photos %}
+      {% for photo in photos[:3] %}
+      <div class="polaroid" style="--rot: {{ [-2.5, 2.5, -1.5][loop.index0 % 3] }}deg">
+        <img src="{{ photo }}" alt="Memory {{ loop.index }}" />
+        <div class="polaroid-caption">{{ ['Together 💕', 'My favourite 🌸', 'Always & forever ❤️'][loop.index0 % 3] }}</div>
+      </div>
+      {% endfor %}
+    {% else %}
+      <div class="polaroid">
+        <div class="pol-placeholder">📷</div>
+        <div class="polaroid-caption">Together 💕</div>
+      </div>
+      <div class="polaroid">
+        <div class="pol-placeholder">🌸</div>
+        <div class="polaroid-caption">My favourite 🌸</div>
+      </div>
+      <div class="polaroid">
+        <div class="pol-placeholder">❤️</div>
+        <div class="polaroid-caption">Always & forever ❤️</div>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+
+
+<!-- ── SURPRISE LETTER ────────────────────────────── -->
+<section id="surprise" class="fade-in">
+  <p class="section-title">A Secret Just For You 💌</p>
+  <p class="section-sub">I wrote you something from the bottom of my heart 🥺</p>
+
+  <button id="open-surprise-btn">Open My Surprise 💝</button>
+
+  <div id="letter-container">
+    <div class="letter-card">
+      <div class="letter-date">Written with all my love 🌸</div>
+      <div id="letter-text"></div>
+      <div class="letter-sign">Forever yours, Your Love 💖</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FINALE ─────────────────────────────────────── -->
+<section id="finale" class="fade-in">
+  <canvas id="confetti-canvas"></canvas>
+  <p class="finale-title">
+    I can't wait to celebrate your special day with you.<br />
+    <span>Advance Happy Birthday, My Princess ❤️✨</span>
+  </p>
+  <p class="finale-sub">"You are my today and all of my tomorrows." 🌸</p>
+  <div class="finale-hearts">❤️ 💕 🌸 ✨ 💖</div>
+</section>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script>
+async function deletePhoto(btn, filename) {
+  if (!confirm('Remove this photo?')) return;
+  const res  = await fetch('/delete-photo', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ filename })
+  });
+  const data = await res.json();
+  if (data.success) location.reload();
+}
+</script>
+</body>
+</html>
